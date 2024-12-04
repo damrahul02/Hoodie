@@ -1,15 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "hoodie_orders";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
+include('../connection.php');
 if (isset($_GET['search_email'])) {
     $searchEmail = $_GET['search_email'];
     $query = "SELECT * FROM orders WHERE student_id LIKE ?";

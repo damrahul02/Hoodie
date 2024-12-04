@@ -1,17 +1,6 @@
 <?php
 // Database connection
-$servername = "localhost";
-$username = "root";   // Default username for XAMPP
-$password = "";       // Default password for XAMPP
-$dbname = "hoodie_orders"; // Your database name
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include('connection.php');
 
 // Check if the form is submitted using POST method
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
