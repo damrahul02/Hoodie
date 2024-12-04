@@ -43,133 +43,49 @@ $claimableCoupons = $claimableCouponsResult->fetch_assoc()['claimable'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin panel</title>
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #ffffff;
-            padding: 20px;
-            margin: 0;
-        }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            margin-bottom: 20px;
-            color: #333;
-            text-align: center;
-        }
-
-        .search-bar {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .search-bar input[type="text"] {
-            padding: 12px 18px;
-            font-size: 16px;
-            width: 300px;
-            border: 1px solid #ccc;
-            border-radius: 50px;
-            margin-right: 10px;
-            transition: width 0.4s ease;
-        }
-
-        .search-bar input[type="text"]:focus {
-            width: 400px;
-            border-color: #007bff;
-        }
-
-        .search-bar button {
-            padding: 12px 20px;
-            font-size: 16px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .search-bar button:hover {
-            background-color: #0056b3;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            overflow-x: auto;
-        }
-
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-            color: #333;
-        }
-
-        th {
-            background-color: #007bff;
-            color: white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        .reactivate-button,
-       .ban-button {
-    padding: 8px 15px;
-    font-size: 14px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-right: 5px; 
-    margin-top:5px;
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-        .ban-button {
-    background-color: #dc3545;
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow-x: auto;
+    display: block; 
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #007bff;
     color: white;
+    font-weight: bold;
 }
 
-.ban-button:hover {
-    background-color: #c82333;
+@media (max-width: 768px) {
+    th, td {
+        font-size: 12px;
+        padding: 5px;
+    }
 }
 
-.reactivate-button {
-    background-color: #28a745;
-    color: white;
-}
-
-.reactivate-button:hover {
-    background-color: #218838;
-}
-
-        .status-active {
-            color: green;
-            font-weight: bold;
-        }
-
-        .status-banned {
-            color: red;
-            font-weight: bold;
-        }
-
-
-
+/* Modal styles */
 .modal {
     display: none;
     position: fixed;
@@ -178,13 +94,14 @@ $claimableCoupons = $claimableCouponsResult->fetch_assoc()['claimable'];
     transform: translate(-50%, -50%);
     background-color: #fff;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    width: 400px;
-    max-width: 90%;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 90%;
+    overflow-y: auto;
+    border: 2px solid #007bff; 
 }
-
 
 .modal-content {
     display: flex;
@@ -208,66 +125,146 @@ $claimableCoupons = $claimableCouponsResult->fetch_assoc()['claimable'];
     border-radius: 5px;
 }
 
-.info p {
-    margin: 5px 0;
+.info {
+    margin-top: 10px;
     font-size: 14px;
+    color: #555;
 }
-
 
 button {
     padding: 10px 20px;
+    font-size: 16px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
 }
 
-.btn-primary {
-    background-color: #007bff;
+button.add-coupon {
+    background-color: #28a745;
     color: white;
-    margin-right: 10px;
-    transition: background-color 0.3s ease;
 }
 
-.btn-primary:hover {
-    background-color: #0056b3;
-}
-
-.btn-danger {
+button.cancel {
     background-color: #dc3545;
     color: white;
-    transition: background-color 0.3s ease;
 }
 
-.btn-danger:hover {
-    background-color: #c82333;
-}
-
-.overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-}
-
-#message {
-    margin-top: 10px;
+button.search-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 12px;
     font-size: 14px;
-    font-weight: bold;
-    text-align: center;
+    border-radius: 5px;
 }
 
-#message.success {
-    color: green;
+button.clear-btn {
+    background-color: #ffc107; 
+    color: black;
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 5px;
 }
 
-#message.error {
-    color: red;
+button.confirm {
+    background-color: #28a745; 
+    color: white;
 }
+
+button.delete {
+    background-color: #dc3545; 
+    color: white;
+}
+
+
+.search-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+@media (max-width: 600px) {
+    .search-bar input {
+        font-size: 14px;
+    }
+    .search-bar button {
+        font-size: 12px;
+        padding: 8px;
+    }
+}
+
+
+.page-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .page-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.page-grid > div {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+
+@media (max-width: 600px) {
+    .modal {
+        font-size: 14px;
+        padding: 15px;
+    }
+
+    .form-group input {
+        font-size: 14px;
+    }
+}
+
+
+@media (max-width: 1024px) {
+    .table-container {
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 600px) {
+    th, td {
+        font-size: 12px;
+    }
+
+    button {
+        font-size: 12px;
+        padding: 8px;
+    }
+}
+
+.modal .success-message {
+    color: #28a745;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.modal .error-message {
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
 
 
     </style>
@@ -279,7 +276,7 @@ button {
 
         <div class="search-bar">
             <input type="text" id="search-email" placeholder="Search by student id" onkeyup="liveSearch()">
-            <button type="button" onclick="window.location.href='manage_users.php'">Clear</button>
+            <button type="button" onclick="window.location.href='admin.php'">Clear</button>
         </div>
         <button onclick="openModal()" style="margin-bottom:20px; background-color:#28a745; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer;">Add Coupon Code</button>
 
@@ -415,6 +412,14 @@ button {
         });
     });
 
+
+window.addEventListener('resize', function() {
+    const modal = document.getElementById('couponModal');
+    if (modal.style.display === 'block') {
+        const height = window.innerHeight * 0.8; // Use 80% of screen height
+        modal.style.maxHeight = height + 'px';
+    }
+});
 
 
     </script>
