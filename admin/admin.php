@@ -24,12 +24,12 @@ if (isset($_GET['search_email'])) {
     $result = $conn->query($query);
     $users = $result->fetch_all(MYSQLI_ASSOC);
 }
-// Fetch total coupons
+
 $totalCouponsQuery = "SELECT COUNT(*) AS total FROM coupons";
 $totalCouponsResult = $conn->query($totalCouponsQuery);
 $totalCoupons = $totalCouponsResult->fetch_assoc()['total'];
 
-// Fetch claimable coupons
+
 $claimableCouponsQuery = "SELECT COUNT(*) AS claimable FROM coupons WHERE status = 'claimable'";
 $claimableCouponsResult = $conn->query($claimableCouponsQuery);
 $claimableCoupons = $claimableCouponsResult->fetch_assoc()['claimable'];
@@ -170,9 +170,6 @@ $claimableCoupons = $claimableCouponsResult->fetch_assoc()['claimable'];
 
 
 
-/* modal */
-
-/* Modal container */
 .modal {
     display: none;
     position: fixed;
@@ -188,13 +185,12 @@ $claimableCoupons = $claimableCouponsResult->fetch_assoc()['claimable'];
     max-width: 90%;
 }
 
-/* Modal content */
+
 .modal-content {
     display: flex;
     flex-direction: column;
 }
 
-/* Form group */
 .form-group {
     margin-bottom: 15px;
 }
@@ -212,13 +208,12 @@ $claimableCoupons = $claimableCouponsResult->fetch_assoc()['claimable'];
     border-radius: 5px;
 }
 
-/* Info section */
 .info p {
     margin: 5px 0;
     font-size: 14px;
 }
 
-/* Buttons */
+
 button {
     padding: 10px 20px;
     border: none;
@@ -248,7 +243,6 @@ button {
     background-color: #c82333;
 }
 
-/* Overlay */
 .overlay {
     display: none;
     position: fixed;
@@ -260,7 +254,6 @@ button {
     z-index: 999;
 }
 
-/* Success/Error Message */
 #message {
     margin-top: 10px;
     font-size: 14px;
@@ -356,7 +349,7 @@ button {
                 <p>Total Coupons: <strong id="totalCoupons"><?php echo $totalCoupons; ?></strong></p>
                 <p>Claimable Coupons: <strong id="claimableCoupons"><?php echo $claimableCoupons; ?></strong></p>
             </div>
-            <div id="message"></div> <!-- Message area for success or error -->
+            <div id="message"></div>
             <button type="submit" class="btn-primary">Add Coupon</button>
             <button type="button" onclick="closeModal()" class="btn-danger">Cancel</button>
         </form>
