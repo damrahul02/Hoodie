@@ -1,30 +1,21 @@
 <?php
 include('../connection.php');
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $couponCode = $_POST['coupon_code'];
+    $couponCode = $_POST['couponCode'];
+    $couponLimit = $_POST['couponLimit'];
 
-
-    $checkQuery = "SELECT COUNT(*) AS count FROM coupons WHERE code = ?";
-    $stmt = $conn->prepare($checkQuery);
-    $stmt->bind_param("s", $couponCode);
-    $stmt->execute();
-    $result = $stmt->get_result()->fetch_assoc();
-
-    if ($result['count'] > 0) {
-        echo "error: Coupon code already exists.";
-    } else {
-        $stmt = $conn->prepare("INSERT INTO coupons (code, status) VALUES (?, 'claimable')");
-        $stmt->bind_param("s", $couponCode);
-
-        if ($stmt->execute()) {
-            echo "success";
+    // Validate inputs
+    if (!empty($couponCode) && !empty($couponLimit) && $couponLimit > 0) {
+        // Insert the new coupon into the database
+        $sql = "INSERT INTO coupons (code, total_coupons, status) VALUES ('$couponCode', $couponLimit, 'active')";
+        
+        if (mysqli_query($conn, $sql)) {
+            echo json_encode(['success' => true, 'message' => 'Coupon added successfully.']);
         } else {
-            echo "error: Unable to add coupon.";
+            echo json_encode(['success' => false, 'message' => 'Error: ' . mysqli_error($conn)]);
         }
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Invalid input.']);
     }
-
-    $stmt->close();
-    $conn->close();
 }
 ?>
